@@ -63,6 +63,12 @@
                    (setq a 10 b 12 c 80))
                  '(2 3 5))))
 
+;; `mmt-with-unique-names'
+
+(ert-deftest mmt-with-unique-names/aliasing ()
+  (should (eq (symbol-function 'mmt-with-unique-names)
+              'mmt-with-gensyms)))
+
 ;; `mmt-once-only'
 
 (defmacro mmt-once-only-test (x y)
