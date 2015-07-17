@@ -109,49 +109,42 @@ symbol the named variable will be bound to."
 
 (defalias 'mmt-with-unique-names 'mmt-with-gensyms)
 
-;; (defmacro mmt-once-only (specs &rest body)
-;;   "Rebind symbols according to SPECS and evaluate BODY.
+(defmacro mmt-once-only (specs &rest body)
+  "Rebind symbols according to SPECS and evaluate BODY.
 
-;; Each of SPECS must be either a symbol naming the variable to be
-;; rebound or of the form:
+Each of SPECS must be either a symbol naming the variable to be
+rebound or of the form:
 
-;;   (SYMBOL INITFORM)
+  (SYMBOL INITFORM)
 
-;; where INITFORM is guaranteed to be evaluated only once.
+where INITFORM is guaranteed to be evaluated only once.
 
-;; Bare symbols in SPECS are equivalent to
+Bare symbols in SPECS are equivalent to
 
-;;   (SYMBOL SYMBOL)
+  (SYMBOL SYMBOL)
 
-;; Example:
+Example:
 
-;;   (defmacro cons1 (x) (mmt-once-only (x) `(cons ,x ,x)))
-;;   (let ((y 0)) (cons1 (incf y))) => (1 . 1)"
-;;   (declare (indent 1))
-;;   (let ((gensyms (mmt-make-gensym-list (length specs) "ONCE-ONLY"))
-;;         (names-and-forms
-;;          (mapcar (lambda (spec)
-;;                    (if (consp spec)
-;;                        (cl-destructuring-bind (name form) spec
-;;                          (cons name form))
-;;                      (cons spec spec)))
-;;                  specs)))
-;;     ;; bind in user-macro
-;;     `(let ,(cl-mapcar (lambda (g n)
-;;                         (list g `(mmt-gensym ,(symbol-name (car n)))))
-;;                       gensyms
-;;                       names-and-forms)
-;;        ;; bind in final expansion
-;;        `(let (,,@(cl-mapcar (lambda (g n)
-;;                               ``(,,g ,,(cdr n)))
-;;                             gensyms
-;;                             names-and-forms))
-;;           ;; bind in user-macro
-;;           ,(let ,(cl-mapcar (lambda (n g)
-;;                               (list (car n) g))
-;;                             names-and-forms
-;;                             gensyms)
-;;              ,@body)))))
+  (defmacro cons1 (x) (mmt-once-only (x) `(cons ,x ,x)))
+  (let ((y 0)) (cons1 (incf y))) => (1 . 1)"
+  (declare (indent 1))
+  (let* ((gensyms (mmt-make-gensym-list (length specs) "ONCE-ONLY"))
+         (names-and-forms
+          (mapcar (lambda (spec)
+                    (if (consp spec)
+                        (cl-destructuring-bind (name form) spec
+                          (cons name form))
+                      (cons spec spec)))
+                  specs))
+         (names (mapcar #'car names-and-forms))
+         (forms (mapcar #'cdr names-and-forms)))
+    ;; DANGER! Brain-damaging code follows:
+    `(mmt-with-gensyms ,(cl-mapcar #'list gensyms names)
+       (list 'let
+             (cl-mapcar #'list (list ,@gensyms) (list ,@forms))
+             ,(cl-list* 'let
+                        (cl-mapcar #'list names gensyms)
+                        body)))))
 
 (provide 'mmt)
 

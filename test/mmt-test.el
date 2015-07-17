@@ -29,10 +29,11 @@
 (undercover "mmt.el")
 
 (require 'mmt)
+(require 'cl-lib)
 
 ;; `mmt-gensym'
 
-(ert-deftest mmt-gensym/equaluality ()
+(ert-deftest mmt-gensym/equality ()
   (should-not (eq (mmt-gensym) (mmt-gensym)))
   (should-not (eq (mmt-gensym "A") (mmt-gensym "A")))
   (should-not (eq (mmt-gensym 5) (mmt-gensym 5)))
@@ -40,9 +41,44 @@
 
 ;; `mmt-make-gensym-list'
 
+(ert-deftest mmt-make-gensym-list/equality ()
+  (should-not (cl-reduce #'eq (mmt-make-gensym-list 10)))
+  (should-not (eq (mmt-make-gensym-list 5)
+                  (mmt-make-gensym-list 5))))
+
 ;; `mmt-with-gensyms'
 
+(defmacro mmt-with-gensyms-test (x y &rest body)
+  "Construct a list using X Y without capturing anything in BODY."
+  (declare (indent 2))
+  (mmt-with-gensyms (a b c)
+    `(let ((,a ,x)
+           (,b ,y)
+           (,c (+ ,x ,y)))
+       ,@body
+       (list ,a ,b ,c))))
+
+(ert-deftest mmt-with-gensyms/capturing ()
+  (should (equal (mmt-with-gensyms-test 2 (+ 1 2)
+                   (setq a 10 b 12 c 80))
+                 '(2 3 5))))
+
 ;; `mmt-once-only'
+
+(defmacro mmt-once-only-test (x y)
+  "Evaluate X and Y once but use their values many times."
+  (mmt-once-only (x y)
+    `(list ,x ,y ,x ,y (+ ,x ,y))))
+
+(defvar mmt-once-only-temp 0
+  "Used in the test below to count number of evaluations.")
+
+(ert-deftest mmt-once-only/evaluation ()
+  (should (equal (mmt-once-only-test
+                  (prog1 10 (cl-incf mmt-once-only-temp))
+                  (prog1 20 (cl-incf mmt-once-only-temp)))
+                 '(10 20 10 20 30)))
+  (should (equal mmt-once-only-temp 2)))
 
 (provide 'mmt-test)
 
