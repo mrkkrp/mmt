@@ -1,4 +1,4 @@
-;;; mmt-init.el --- Tests for mmt (Missing macro tools for Emacs Lisp) -*- lexical-binding: t; -*-
+;;; mmt-test.el --- Tests for mmt (Missing macro tools for Emacs Lisp) -*- lexical-binding: t; -*-
 ;;
 ;; Copyright © 2015 Mark Karpov <markkarpov@openmailbox.org>
 ;;
@@ -44,8 +44,6 @@
 
 ;; `mmt-once-only'
 
-(require 'ert)
+(provide 'mmt-test)
 
-(provide 'mmt-init)
-
-;;; mmt-init.el ends here
+;;; mmt-test.el ends here
