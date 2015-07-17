@@ -1,6 +1,7 @@
 # Missing macro tools
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
+[![Build Status](https://travis-ci.org/mrkkrp/mmt.svg?branch=master)](https://travis-ci.org/mrkkrp/mmt)
 
 The package contains classic tools for Emacs Lisp developers who want to
 write macros with convenience.
