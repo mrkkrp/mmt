@@ -30,8 +30,6 @@ install:
 
 script:
   - cask exec ert-runner
-  - cask build
-  - cask exec ert-runner
 
 notifications:
   email: false
