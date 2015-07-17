@@ -9,8 +9,10 @@ write macros with convenience.
 The following functions and macros are present:
 
 * `mmt-gensym`
+* `mmt-make-gensym-list`
 * `mmt-with-gensyms`
 * `mmt-with-unique-names`
+* `mmt-once-only`
 
 ## Installation
 
@@ -54,6 +56,17 @@ incremented after it is used.
 ----
 
 ```
+mmt-make-gensym-list length &optional x
+```
+
+Return a list of `length` gensyms.
+
+Each element of the list is generated as if with a call to `mmt-gensym`
+using the second argument `x` (defaulting `"G"`).
+
+----
+
+```
 mmt-with-gensyms names &rest body
 ```
 
@@ -71,8 +84,9 @@ Bare symbols appearing in `names` are equivalent to:
 (symbol symbol)
 ```
 
-The `string-or-symbol` is used as the argument to `mmt-gensym` when
-constructing the unique symbol the named variable will be bound to.
+The `string-or-symbol` is used (converted to string if necessary) as the
+argument to `mmt-gensym` when constructing the unique symbol the named
+variable will be bound to.
 
 ----
 
@@ -81,6 +95,39 @@ mmt-with-unique-names names &rest body
 ```
 
 This is an alias for `mmt-with-gensyms`.
+
+----
+
+```
+mmt-once-only specs &rest body
+```
+
+Rebind symbols according to `specs` and evaluate `body`.
+
+Each of `specs` must be either a symbol naming the variable to be rebound or
+of the form:
+
+```
+(symbol initform)
+```
+
+where `initform` is guaranteed to be evaluated only once.
+
+Bare symbols in `specs` are equivalent to
+
+```
+(symbol symbol)
+```
+
+Example:
+
+```emacs-lisp
+(defmacro cons1 (x)
+  (mmt-once-only (x) `(cons ,x ,x)))
+
+(let ((y 0))
+  (cons1 (incf y))) ;; ⇒ (1 . 1)
+```
 
 ## License
 

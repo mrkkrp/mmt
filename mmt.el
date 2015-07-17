@@ -31,10 +31,17 @@
 ;; The following functions and macros are present:
 ;;
 ;; * mmt-gensym
+;; * mmt-make-gensym-list
 ;; * mmt-with-gensyms
 ;; * mmt-with-unique-names
+;; * mmt-once-only
 
 ;;; Code:
+
+;; Note that this code is much inspired by relevant pieces from Common Lisp
+;; library Alexandria.
+
+(require 'cl-lib)
 
 (defvar mmt--gensym-counter 0
   "This is the counter that `mmt-gensym' uses.")
@@ -65,6 +72,13 @@ If and only if no explicit suffix is supplied
                           (1+ mmt--gensym-counter))))))
     (make-symbol (format "%s%d" prefix suffix))))
 
+(defun mmt-make-gensym-list (length &optional x)
+  "Return a list of LENGTH gensyms.
+
+Each element of the list is generated as if with a call to
+`mmt-gensym' using the second argument X (defaulting \"G\")."
+  (mapcar #'mmt-gensym (make-list length (or x "G"))))
+
 (defmacro mmt-with-gensyms (names &rest body)
   "Bind each variable in NAMES to a unique symbol and evaluate BODY.
 
@@ -76,23 +90,68 @@ Bare symbols appearing in NAMES are equivalent to:
 
   (SYMBOL SYMBOL)
 
-The STRING-OR-SYMBOL is used as the argument to `mmt-gensym' when
-constructing the unique symbol the named variable will be bound
-to."
+The STRING-OR-SYMBOL is used (converted to string if necessary)
+as the argument to `mmt-gensym' when constructing the unique
+symbol the named variable will be bound to."
+  (declare (indent 1))
   `(let ,(mapcar (lambda (name)
                    (cl-destructuring-bind (symbol . prefix)
                        (if (consp name)
                            (cons (car name) (cadr name))
                          (cons name name))
-                     (list symbol
-                           (mmt-gensym
-                            (if (symbolp prefix)
-                                (symbol-name prefix)
-                              prefix)))))
+                     `(,symbol
+                       (mmt-gensym
+                        ,(if (symbolp prefix)
+                             (symbol-name prefix)
+                           prefix)))))
                  names)
      ,@body))
 
 (defalias 'mmt-with-unique-names 'mmt-with-gensyms)
+
+(defmacro mmt-once-only (specs &rest body)
+  "Rebind symbols according to SPECS and evaluate BODY.
+
+Each of SPECS must be either a symbol naming the variable to be
+rebound or of the form:
+
+  (SYMBOL INITFORM)
+
+where INITFORM is guaranteed to be evaluated only once.
+
+Bare symbols in SPECS are equivalent to
+
+  (SYMBOL SYMBOL)
+
+Example:
+
+  (defmacro cons1 (x) (mmt-once-only (x) `(cons ,x ,x)))
+  (let ((y 0)) (cons1 (incf y))) => (1 . 1)"
+  (declare (indent 1))
+  (let ((gensyms (mmt-make-gensym-list (length specs) "ONCE-ONLY"))
+        (names-and-forms
+         (mapcar (lambda (spec)
+                   (if (consp spec)
+                       (cl-destructuring-bind (name form) spec
+                         (cons name form))
+                     (cons spec spec)))
+                 specs)))
+    ;; bind in user-macro
+    `(let ,(cl-mapcar (lambda (g n)
+                        (list g `(mmk-gensym ,(symbol-name (car n)))))
+                      gensyms
+                      names-and-forms)
+       ;; bind in final expansion
+       `(let (,,@(cl-mapcar (lambda (g n)
+                              ``(,,g ,,(cdr n)))
+                            gensyms
+                            names-and-forms))
+          ;; bind in user-macro
+          ,(let ,(cl-mapcar (lambda (n g)
+                              (list (car n) g))
+                            names-and-forms
+                            gensyms)
+             ,@body)))))
 
 (provide 'mmt)
 
