@@ -138,7 +138,7 @@ Example:
                  specs)))
     ;; bind in user-macro
     `(let ,(cl-mapcar (lambda (g n)
-                        (list g `(mmk-gensym ,(symbol-name (car n)))))
+                        (list g `(mmt-gensym ,(symbol-name (car n)))))
                       gensyms
                       names-and-forms)
        ;; bind in final expansion
