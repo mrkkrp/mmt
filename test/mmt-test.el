@@ -33,16 +33,9 @@
 
 ;; `mmt-gensym'
 
-(ert-deftest mmt-gensym/equality ()
-  (setq mmt--gensym-counter 0)
-  (should-not (eq (mmt-gensym) (mmt-gensym)))
-  (should (= mmt--gensym-counter 2))
-  (should-not (eq (mmt-gensym "A") (mmt-gensym "A")))
-  (should (= mmt--gensym-counter 4))
-  (should-not (eq (mmt-gensym 5) (mmt-gensym 5)))
-  (should (= mmt--gensym-counter 4))
-  (should (let ((x (mmt-gensym))) (eq x x)))
-  (should (= mmt--gensym-counter 5)))
+(ert-deftest mmt-gensym/aliasing ()
+  (should (eq (symbol-function 'mmt-gensym)
+              'cl-gensym)))
 
 ;; `mmt-make-gensym-list'
 
