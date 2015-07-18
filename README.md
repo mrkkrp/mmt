@@ -1,6 +1,7 @@
 # Missing macro tools for Emacs Lisp
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
+[![MELPA](http://melpa.org/packages/mmt-badge.svg)](http://melpa.org/#/mmt)
 [![Build Status](https://travis-ci.org/mrkkrp/mmt.svg?branch=master)](https://travis-ci.org/mrkkrp/mmt)
 [![Coverage Status](https://coveralls.io/repos/mrkkrp/mmt/badge.svg?branch=master&service=github)](https://coveralls.io/github/mrkkrp/mmt?branch=master)
 
@@ -30,6 +31,8 @@ are writing an Emacs Lisp package:
 ```emacs-lisp
 ;; Package-Requires: ((emacs "24.1") (mmt "0.1.0"))
 ```
+
+The library is available on MELPA and MELPA stable.
 
 ## API
 
