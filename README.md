@@ -29,7 +29,7 @@ That's it. Don't forget to include it in your list of dependencies if you
 are writing an Emacs Lisp package:
 
 ```emacs-lisp
-;; Package-Requires: ((emacs "24.1") (mmt "0.1.0"))
+;; Package-Requires: ((emacs "24.1") (mmt "0.1.1"))
 ```
 
 The library is available on MELPA and MELPA stable.
