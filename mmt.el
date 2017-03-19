@@ -41,7 +41,7 @@
 ;; Note that this code is much inspired by relevant pieces from Common Lisp
 ;; library Alexandria.
 
-(require 'cl-lib)
+(eval-when-compile (require 'cl-lib))
 
 (defalias 'mmt-gensym 'cl-gensym
   "Create and return new uninterned symbol as if by calling `make-symbol'.
