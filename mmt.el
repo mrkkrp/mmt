@@ -66,8 +66,8 @@ If and only if no explicit suffix is supplied
   "Return a list of LENGTH gensyms.
 
 Each element of the list is generated as if with a call to
-`mmt-gensym' using the second argument X (defaulting \"G\")."
-  (mapcar #'mmt-gensym (make-list length (or x "G"))))
+`cl-gensym' using the second argument X (defaulting \"G\")."
+  (mapcar #'cl-gensym (make-list length (or x "G"))))
 
 (defmacro mmt-with-gensyms (names &rest body)
   "Bind each variable in NAMES to a unique symbol and evaluate BODY.
@@ -81,7 +81,7 @@ Bare symbols appearing in NAMES are equivalent to:
   (SYMBOL SYMBOL)
 
 The STRING-OR-SYMBOL is used (converted to string if necessary)
-as the argument to `mmt-gensym' when constructing the unique
+as the argument to `cl-gensym' when constructing the unique
 symbol the named variable will be bound to."
   (declare (indent 1))
   `(let ,(mapcar (lambda (name)
@@ -90,7 +90,7 @@ symbol the named variable will be bound to."
                            (cons (car name) (cadr name))
                          (cons name name))
                      `(,symbol
-                       (mmt-gensym
+                       (cl-gensym
                         ,(if (symbolp prefix)
                              (symbol-name prefix)
                            prefix)))))
