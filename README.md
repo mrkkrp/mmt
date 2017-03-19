@@ -10,7 +10,6 @@ write macros with convenience.
 
 The following functions and macros are present:
 
-* `mmt-gensym`
 * `mmt-make-gensym-list`
 * `mmt-with-gensyms`
 * `mmt-with-unique-names`
@@ -36,28 +35,7 @@ The library is available on MELPA and MELPA stable.
 
 ## API
 
-```
-mmt-gensym &optional x
-```
-
-Create and return new uninterned symbol as if by calling `make-symbol`.
-
-The only difference between `mmt-gensym` and `make-symbol` is in how the new
-symbol's name is determined. The name is concatenation of a prefix which
-defaults to `"G"` and a suffix which is decimal representation of a number
-that defaults to the value of `mmt--gensym-counter`.
-
-If `x` is supplied and is a string, then that string is used as a prefix
-instead of `"G"` for this call to `mmt-gensym` only.
-
-If `x` is supplied and is an integer, then that integer is used instead of
-the value of `mmt--gensym-counter` as the suffix for this call of
-`mmt-gensym` only.
-
-If and only if no explicit suffix is supplied `mmt--gensym-counter` is
-incremented after it is used.
-
-----
+`cl-gensym` is provided by `cl-lib`, which ships with Emacs.
 
 ```
 mmt-make-gensym-list length &optional x

@@ -31,12 +31,6 @@
 (require 'mmt)
 (require 'cl-lib)
 
-;; `mmt-gensym'
-
-(ert-deftest mmt-gensym/aliasing ()
-  (should (eq (symbol-function 'mmt-gensym)
-              'cl-gensym)))
-
 ;; `mmt-make-gensym-list'
 
 (ert-deftest mmt-make-gensym-list/equality ()
