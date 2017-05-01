@@ -37,9 +37,6 @@
 
 ;;; Code:
 
-;; Note that this code is much inspired by relevant pieces from Common Lisp
-;; library Alexandria.
-
 (eval-when-compile (require 'cl-lib))
 
 (defun mmt-make-gensym-list (length &optional x)
