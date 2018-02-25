@@ -2,7 +2,7 @@
 ;;
 ;; Copyright © 2015–2018 Mark Karpov <markkarpov@openmailbox.org>
 ;;
-;; Author: Mark Karpov <markkarpov@openmailbox.org>
+;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/mmt
 ;;
 ;; This file is not part of GNU Emacs.
