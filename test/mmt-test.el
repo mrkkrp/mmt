@@ -1,6 +1,6 @@
 ;;; mmt-test.el --- Tests for mmt (Missing macro tools for Emacs Lisp) -*- lexical-binding: t; -*-
 ;;
-;; Copyright © 2015–2018 Mark Karpov <markkarpov@openmailbox.org>
+;; Copyright © 2015–present Mark Karpov <markkarpov92@gmail.com>
 ;;
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/mmt
