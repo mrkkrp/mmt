@@ -24,10 +24,6 @@
 
 ;;; Code:
 
-(require 'undercover)
-
-(undercover "mmt.el")
-
 (require 'mmt)
 (require 'cl-lib)
 
