@@ -4,9 +4,6 @@
 [![MELPA](https://melpa.org/packages/mmt-badge.svg)](https://melpa.org/#/mmt)
 ![CI](https://github.com/mrkkrp/mmt/workflows/CI/badge.svg?branch=master)
 
-The package contains classic tools for Emacs Lisp developers who want to
-write macros with convenience.
-
 The following functions and macros are present:
 
 * `mmt-make-gensym-list`
@@ -16,21 +13,23 @@ The following functions and macros are present:
 
 ## Installation
 
-Put it on your `load-path` and then add the following at the top of file
-where you would like to use the goodies:
+The package is available via MELPA, so you can just type `M-x
+package-install RET mmt RET`.
+
+If you would like to install the package manually, download or clone it and
+put on Emacs' `load-path`. Then you can require it in your init file like
+this:
 
 ```emacs-lisp
 (require 'mmt)
 ```
 
-That's it. Don't forget to include it in your list of dependencies if you
-are writing an Emacs Lisp package:
+Don't forget to include it in your list of dependencies if you are writing
+an Emacs Lisp package:
 
 ```emacs-lisp
-;; Package-Requires: ((emacs "24.1") (mmt "0.1.1"))
+;; Package-Requires: ((emacs "24.5") (mmt "0.1.1"))
 ```
-
-The library is available on MELPA and MELPA stable.
 
 ## API
 
@@ -43,7 +42,7 @@ mmt-make-gensym-list length &optional x
 Return a list of `length` gensyms.
 
 Each element of the list is generated as if with a call to `mmt-gensym`
-using the second argument `x` (defaulting `"G"`).
+using the second argument `x` (defaulting to `"G"`).
 
 ----
 
@@ -53,7 +52,7 @@ mmt-with-gensyms names &rest body
 
 Bind each variable in `names` to a unique symbol and evaluate `body`.
 
-Each of `names` must be either a symbol, or of the form:
+Each element of `names` must be either a symbol, or of the form:
 
 ```
 (symbol string-or-symbol)
@@ -65,7 +64,7 @@ Bare symbols appearing in `names` are equivalent to:
 (symbol symbol)
 ```
 
-The `string-or-symbol` is used (converted to string if necessary) as the
+The `string-or-symbol` is used (converted to a string if necessary) as the
 argument to `mmt-gensym` when constructing the unique symbol the named
 variable will be bound to.
 
@@ -85,8 +84,8 @@ mmt-once-only specs &rest body
 
 Rebind symbols according to `specs` and evaluate `body`.
 
-Each of `specs` must be either a symbol naming the variable to be rebound or
-of the form:
+Each element of `specs` must be either a symbol naming the variable to be
+rebound or of the form:
 
 ```
 (symbol initform)
