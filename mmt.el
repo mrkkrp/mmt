@@ -34,7 +34,7 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl-lib))
+(require 'cl-lib)
 
 (defun mmt-make-gensym-list (length &optional x)
   "Return a list of LENGTH gensyms.
