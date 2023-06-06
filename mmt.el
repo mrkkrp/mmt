@@ -5,8 +5,8 @@
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/mmt
 ;; Version: 0.2.0
-;; Package-Requires: ((emacs "24.5") (cl-lib "0.3"))
-;; Keywords: macro, emacs-lisp
+;; Package-Requires: ((emacs "24.5"))
+;; Keywords: macro, lisp, extensions
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
