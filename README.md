@@ -2,7 +2,7 @@
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
 [![MELPA](https://melpa.org/packages/mmt-badge.svg)](https://melpa.org/#/mmt)
-![CI](https://github.com/mrkkrp/mmt/workflows/CI/badge.svg?branch=master)
+[![CI](https://github.com/mrkkrp/mmt/actions/workflows/ci.yaml/badge.svg)](https://github.com/mrkkrp/mmt/actions/workflows/ci.yaml)
 
 The following functions and macros are present:
 
