@@ -41,7 +41,7 @@ mmt-make-gensym-list length &optional x
 
 Return a list of `length` gensyms.
 
-Each element of the list is generated as if with a call to `mmt-gensym`
+Each element of the list is generated as if with a call to `cl-gensym`
 using the second argument `x` (defaulting to `"G"`).
 
 ----
@@ -65,7 +65,7 @@ Bare symbols appearing in `names` are equivalent to:
 ```
 
 The `string-or-symbol` is used (converted to a string if necessary) as the
-argument to `mmt-gensym` when constructing the unique symbol the named
+argument to `cl-gensym` when constructing the unique symbol the named
 variable will be bound to.
 
 ----
